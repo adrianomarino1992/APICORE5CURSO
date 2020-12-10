@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiCore5.Services;
-namespace ApiCore5.Services
+using ApiCore5.Business;
+
+namespace ApiCore5.Repository
 {
-    public static class IPersonServicesHelper
+    public static class IpersonRepositoryHelper
     {
-        public static void Run(this IPersonService iPersonService)
+        public static void Run(this IPersonRepository iPersonService)
         {
             iPersonService.Create(new Model.Person());
         }

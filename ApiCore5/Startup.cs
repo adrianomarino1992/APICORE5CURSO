@@ -11,8 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiCore5.Services;
-using ApiCore5.Services.Implementations;
+using ApiCore5.Business;
+using ApiCore5.Business.Implementations;
+using ApiCore5.Repository;
+using ApiCore5.Repository.Implementations;
+using ApiCore5.Model.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiCore5
 {
@@ -31,7 +35,20 @@ namespace ApiCore5
 
             services.AddControllers();
 
-            services.AddScoped<IPersonService, PersonService>();
+            var configurations = Configuration["MySqlConnection:MySqlConnectionString"];
+
+            // passo a implementação
+            services.AddDbContext<MySqlContext>(options => options.UseMySql(configurations));
+
+            services.AddApiVersioning();
+
+
+            // serviços de injeção de dependencias
+            //Abstração e implementação do componente que controlará as regras de negocio da aplicação
+            services.AddScoped<IPersonBusiness, PersonBusiness>();
+
+            //Abstração e implementação do componente que acessará o banco de dados
+            services.AddScoped<IPersonRepository, PersonRepository>();
           
         }
 

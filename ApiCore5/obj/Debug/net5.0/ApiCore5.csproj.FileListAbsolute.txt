@@ -35,3 +35,13 @@ C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\obj\Debug\net5.0\ApiCore5.dll
 C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\obj\Debug\net5.0\ref\ApiCore5.dll
 C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\obj\Debug\net5.0\ApiCore5.pdb
 C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\obj\Debug\net5.0\ApiCore5.genruntimeconfig.cache
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Microsoft.Bcl.HashCode.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\MySqlConnector.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Pomelo.JsonObject.dll
+C:\Users\USER\Desktop\APICORE\ApiCore5\ApiCore5\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Versioning.dll

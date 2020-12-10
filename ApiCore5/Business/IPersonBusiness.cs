@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiCore5.Model;
 
-namespace ApiCore5.Services
+namespace ApiCore5.Business
 {
-    public interface IPersonService
-    {
+    public interface IPersonBusiness
+    { 
+    
         Person Create(Person person);
         Person Update(Person person);
         void Delete(int id);
