@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiCore5.Model
 {
     [Table("person")]
-    public class Person
+    public class Person : IBase
     {
         [Column("id")]
         public int Id { get; set; }        

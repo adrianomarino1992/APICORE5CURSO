@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ApiCore5.Repository;
+using ApiCore5.Repository.Implementations;
 
 namespace ApiCore5.Business.Implementations
 {
@@ -23,9 +24,8 @@ namespace ApiCore5.Business.Implementations
         {
             try
             {
-                _repository.Create(person);
-               
-                return person;
+               return _repository.Insert(person);               
+                
 
             }
             catch (Exception)
@@ -36,19 +36,19 @@ namespace ApiCore5.Business.Implementations
 
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            _repository.Delete(new Person() { Id = id});
            
         }
 
         public IEnumerable<Person> Get()
         {
 
-            return _repository.Get();
+            return _repository.GetAll();
         }        
 
         public Person Get(int id)
         {
-            return _repository.Get(id);
+            return _repository.GetPerson(p => p.Id == id);
         }
 
         public Person Update(Person person)

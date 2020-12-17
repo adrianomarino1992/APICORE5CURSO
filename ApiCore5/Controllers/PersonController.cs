@@ -32,7 +32,7 @@ namespace ApiCore5.Controllers
         public IActionResult GetAll()
         {
             return Ok(_personBusiness.Get());
-        }
+        }        
 
         [HttpGet("/persons/byid/{id}")]
         public IActionResult Search(int id)

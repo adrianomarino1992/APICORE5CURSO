@@ -2,10 +2,12 @@
 using ApiCore5.Model.Context;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using ApiCore5.Business;
 
 namespace ApiCore5.Repository.Implementations
 {
@@ -13,95 +15,112 @@ namespace ApiCore5.Repository.Implementations
     {
         private MySqlContext _context;
 
-        public PersonRepository(MySqlContext context)
-        {
+        private DbSet<Person> _dbSet;
+
+
+        /// <summary>
+        /// Contructor using Dependecy Injection
+        /// </summary>
+        /// <param name="context" Type="Microsoft.EntityFrameworkCore.DbContext"></param>
+        public PersonRepository(MySqlContext context) {
+
             _context = context;
+        
         }
 
-        public Person Create(Person person)
+        #region metodos_especializacao_interface IPersonRepository
+
+
+        public Person GetPerson(Expression<Func<Person,bool>> query)
         {
             try
             {
-                _context.Persons.Add(person);
+                return _context.Persons.Where(query).FirstOrDefault();
+                    
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        #endregion
+
+
+
+        #region metodos_interface
+
+        /*
+         * implementação da interface IRepository
+         * 
+         */
+        public Person Delete(Person obj)
+        {
+            Person result = _context.Persons.FirstOrDefault(o => o.Id == obj.Id) as Person;
+
+            if (result == null) return null;
+
+
+            try
+            {
+                _context.Persons.Remove(obj);
                 _context.SaveChanges();
-                return person;
-
+                return obj;
             }
-            catch (Exception)
+            catch
             {
-                throw;
+                return null;
             }
         }
 
-        public void Delete(int id)
+        public IEnumerable<Person> GetAll()
         {
-            Person p = _context.Persons.Where(p => p.Id == id).Select(p => p).FirstOrDefault();
-
-            if (PersonExists(person: p))
+            try
             {
-                try
-                {
-                    _context.Persons.Remove(p);
-                    _context.SaveChanges();                    
-
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-
+                return _context.Persons
+                    .OrderBy(p => p.FirstName)
+                    .Select(o => o).ToList();
             }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Person Insert(Person obj)
+        {
+            try
+            {
+                _context.Persons.Add(obj);
+                _context.SaveChanges();
+                return obj;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Person Update(Person obj)
+        {
+            Person result = _context.Persons.FirstOrDefault(o => o.Id == obj.Id) as Person;
+
+            if (result == null) return null;
            
-        }
 
-        public IEnumerable<Person> Get()
-        {
-           
-            return _context.Persons.ToList();
-        }        
-
-        public Person Get(int id)
-        {
-            return _context.Persons.Where(p => p.Id == id).Select(p => p).FirstOrDefault();
-        }
-
-        public Person Update(Person person)
-        {
-           if(PersonExists(person : person))
+            try
             {
-                try
-                {
-                    _context.Persons.Update(person);
-                    _context.SaveChanges();
-
-                    return person;
-
-                }
-                catch(Exception)
-                {
-                    throw;
-                }
-               
+                _context.Persons.Update(obj);
+                _context.SaveChanges();
+                return obj;
             }
-            else
+            catch
             {
-                return new Person();
+                return null;
             }
         }
 
-        private bool PersonExists(int? id = null, Person person = null)
-        {
-            if(_context.Persons.Count(p => p.Id == id || p.Id == person.Id) > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
-       
-
-        
-
-        
+        #endregion
     }
 }

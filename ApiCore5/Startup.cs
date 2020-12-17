@@ -17,17 +17,28 @@ using ApiCore5.Repository;
 using ApiCore5.Repository.Implementations;
 using ApiCore5.Model.Context;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace ApiCore5
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IWebHostEnvironment Environment { get; }
 
         public IConfiguration Configuration { get; }
+
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            Environment = environment;
+            Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+        }
+
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,6 +51,13 @@ namespace ApiCore5
             // passo a implementação
             services.AddDbContext<MySqlContext>(options => options.UseMySql(configurations));
 
+
+            if(Environment.IsDevelopment())
+            {
+                MigrateDataBase(configurations);
+            }
+
+
             services.AddApiVersioning();
 
 
@@ -49,8 +67,31 @@ namespace ApiCore5
 
             //Abstração e implementação do componente que acessará o banco de dados
             services.AddScoped<IPersonRepository, PersonRepository>();
+            
           
         }
+
+        private void MigrateDataBase(string conn)
+        {
+            try
+            {
+                MySql.Data.MySqlClient.MySqlConnection evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(conn);
+                Evolve.Evolve evolve = new Evolve.Evolve(evolveConnection, (msg) => { Log.Information(msg); })
+                {
+                    Locations = new List<string>() { "DB/Migrations", "DB/Dataset" },
+                    IsEraseDisabled = true
+                };
+
+                evolve.Migrate();
+
+            }catch(Exception ex)
+            {
+                Log.Error("Erro on Migrate database", ex.Message);
+                throw;
+            }
+        }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

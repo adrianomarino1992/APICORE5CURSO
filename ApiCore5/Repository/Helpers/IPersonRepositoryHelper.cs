@@ -8,9 +8,6 @@ namespace ApiCore5.Repository
 {
     public static class IpersonRepositoryHelper
     {
-        public static void Run(this IPersonRepository iPersonService)
-        {
-            iPersonService.Create(new Model.Person());
-        }
+       
     }
 }
